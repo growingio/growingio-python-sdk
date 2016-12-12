@@ -58,7 +58,7 @@ class GrowingIO(object):
         """
         初始化一个 GrowingIO 的实例。
         @param ai account id 从 GrowingIO 的管理界面获得。
-        @param client id 从GrowingIO 申请获得。
+        @param client id 从 GrowingIO 申请获得。
         """
         self._ai = ai
         self._client_id = client_id
@@ -90,36 +90,31 @@ class GrowingIO(object):
     def _normalize_data(self, data, event_name, user_id):
         time = self._extract_user_time(data)
         gr_user_id = data['u']
+        del data['u']
         session_id = data['s']
-
-        parameters = [{
-            "tm": time,
+        del data['s']
+        common_properties = self._get_common_properties()
+        parameters = {
             "stm": time,
             "cs1": "user:{user_id}".format(user_id=user_id),
             "s": session_id,
             "u": gr_user_id,
-            "ai": "${ai}",
+            "ai": "{ai}".format(ai=self._ai),
             "t": "cstm",
             "n": event_name,
             "e": data
-        }]
-        return parameters
+        }
+        return [dict(common_properties, **parameters)]
 
     def _check_data(self, event_name, data):
         # 检查 u session_id
         if data["u"] is None or len(str(data['u'])) == 0:
             raise GrowingIOIllegalDataException(
                 "property [u] must not be empty")
-        if len(str(data['u'])) > 255:
-            raise GrowingIOIllegalDataException(
-                "the max length of property [u] is 255")
 
         if data["s"] is None or len(str(data['s'])) == 0:
             raise GrowingIOIllegalDataException(
                 "property [s] must not be empty")
-        if len(str(data['s'])) > 255:
-            raise GrowingIOIllegalDataException(
-                "the max length of property [s] is 255")
 
         # 检查 time
         if data.has_key('time') and isinstance(data['time'], datetime.datetime):
@@ -221,7 +216,7 @@ class GrowingIO(object):
         构造所有 Event 通用的属性: 比如SDK版本属性
         """
         common_properties = {
-            '$lib': 'python',
-            '$lib_version': SDK_VERSION,
+            'sdk_type': 'python',
+            'sdk_version': SDK_VERSION,
         }
         return common_properties
