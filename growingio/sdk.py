@@ -11,7 +11,7 @@ import urllib2
 import snappy
 
 
-SDK_VERSION = '1.0'
+SDK_VERSION = '1.0.0'
 
 try:
     isinstance("", basestring)
@@ -35,14 +35,14 @@ class GrowingIOException(Exception):
     pass
 
 
-class GrowingIOExceptionIllegalDataException(GrowingIOException):
+class GrowingIOIllegalDataException(GrowingIOException):
     """
     在发送的数据格式有误时，SDK会抛出此异常，用户应当捕获并处理。
     """
     pass
 
 
-class GrowingIOExceptionNetworkException(GrowingIOException):
+class GrowingIONetworkException(GrowingIOException):
     """
     在因为网络或者不可预知的问题导致数据无法发送时，SDK会抛出此异常，用户应当捕获并处理。
     """
@@ -108,17 +108,17 @@ class GrowingIO(object):
     def _check_data(self, event_name, data):
         # 检查 u session_id
         if data["u"] is None or len(str(data['u'])) == 0:
-            raise GrowingIOExceptionIllegalDataException(
+            raise GrowingIOIllegalDataException(
                 "property [u] must not be empty")
         if len(str(data['u'])) > 255:
-            raise GrowingIOExceptionIllegalDataException(
+            raise GrowingIOIllegalDataException(
                 "the max length of property [u] is 255")
 
         if data["s"] is None or len(str(data['s'])) == 0:
-            raise GrowingIOExceptionIllegalDataException(
+            raise GrowingIOIllegalDataException(
                 "property [s] must not be empty")
         if len(str(data['s'])) > 255:
-            raise GrowingIOExceptionIllegalDataException(
+            raise GrowingIOIllegalDataException(
                 "the max length of property [s] is 255")
 
         # 检查 time
@@ -129,7 +129,7 @@ class GrowingIO(object):
             ts = int(data['time'])
             ts_num = len(str(ts))
             if ts_num < 10 or ts_num > 13:
-                raise GrowingIOExceptionIllegalDataException(
+                raise GrowingIOIllegalDataException(
                     "property [time] must be a timestamp in microseconds")
 
             if ts_num == 10:
@@ -141,27 +141,27 @@ class GrowingIO(object):
         # 检查 properties
         for key in data.keys():
             if not is_str(key):
-                raise GrowingIOExceptionIllegalDataException(
+                raise GrowingIOIllegalDataException(
                     "property key must be a str. [key=%s]" % str(key))
             if len(key) > 255:
-                raise GrowingIOExceptionIllegalDataException(
+                raise GrowingIOIllegalDataException(
                     "the max length of property key is 256. [key=%s]" % str(key))
 
             value = data[key]
 
             if is_str(value) and len(value) > 8191:
-                raise GrowingIOExceptionIllegalDataException(
+                raise GrowingIOIllegalDataException(
                     "the max length of property key is 8192. [key=%s]" % str(key))
 
             if not is_str(value) and not is_int(value) and not isinstance(value, float)\
                     and not isinstance(value, datetime.datetime) and not isinstance(value, datetime.date)\
                     and not isinstance(value, list) and value is not None:
-                raise GrowingIOExceptionIllegalDataException(
+                raise GrowingIOIllegalDataException(
                     "property value must be a str/int/float/datetime/date/list. [value=%s]" % type(value))
             if isinstance(value, list):
                 for lvalue in value:
                     if not is_str(lvalue):
-                        raise GrowingIOExceptionIllegalDataException(
+                        raise GrowingIOIllegalDataException(
                             "[list] property's value must be a str. [value=%s]" % type(lvalue))
 
         return data
@@ -197,7 +197,7 @@ class GrowingIO(object):
             else:
                 urllib2.urlopen(request)
         except urllib2.HTTPError as e:
-            raise SensorsAnalyticsNetworkException(e)
+            raise GrowingIONetworkException(e)
         return True
 
     def _compress_msg(self, msg):
