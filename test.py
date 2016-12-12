@@ -5,7 +5,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 def __main__():
-    gio = GrowingIO(ai="0a1b4118dd954ec3bcc69da5138bdb96", client_id="7f8it37dxdt91x4n5cvuvccc1cgaqe22", is_debug = True)
+    gio = GrowingIO(ai="xxx", client_id="xxx", is_debug = True)
     user_id = 526 
     gr_user_id = "7328beea-ee89-43a0-86cb-48879e90a67d" 
     session_id = "bb9aa471-3bc9-455b-b3a1-eeb9e0e9a0e3" 
