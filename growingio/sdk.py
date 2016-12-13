@@ -79,7 +79,6 @@ class GrowingIO(object):
         """
         data = self._check_data(event_name, properties)
         normal_data = self._normalize_data(data, event_name, user_id)
-        print data
         self._send(normal_data)
 
     # def track_signup(self, distinct_id, original_id, properties=None):
@@ -182,7 +181,6 @@ class GrowingIO(object):
         使用 urllib 发送数据给服务器，如果发生错误会抛出异常。
         """
         try:
-            print data
             request = urllib2.Request(self._url, data)
             request.add_header('Content-Type', 'text/plain')
             request.add_header('charset', 'utf-8')
@@ -200,7 +198,6 @@ class GrowingIO(object):
         使用snappy压缩数据
         """
         raw_data = json.dumps(msg)
-        print msg
         if self._is_debug:
             print msg
         compress_data = snappy.compress(raw_data)
