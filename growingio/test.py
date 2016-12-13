@@ -14,7 +14,7 @@ def __main__():
         "u" : gr_user_id,
         "s" : session_id,
         "time" : datetime.datetime.now(),
-        "account_id": "xxx" 
+        "account_id": "xxx",
         "chart_dimension_count": 12,
         "chart_id": 9999,
         "chart_metric_count": 1,
