@@ -1,11 +1,8 @@
-  # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import datetime
 import time
 import json
-import re
-import sys
-import traceback
 import urllib
 import urllib2
 import snappy
