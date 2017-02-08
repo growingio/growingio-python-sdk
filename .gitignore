@@ -1,3 +1,4 @@
 *.pyc
 dist/
 dist.sh
+growingio/local_test.py

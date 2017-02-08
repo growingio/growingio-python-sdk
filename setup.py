@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='GrowingIOSDK',
-    version='1.0.0',
+    version='1.0.1',
     author='Damon Lin',
     author_email='linshengsheng@growingio.com',
     url='https://github.com/growingio/growingio-python-sdk',

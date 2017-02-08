@@ -8,7 +8,7 @@ import urllib2
 import snappy
 
 
-SDK_VERSION = '1.0.0'
+SDK_VERSION = '1.0.1'
 
 try:
     isinstance("", basestring)
