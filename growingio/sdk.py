@@ -91,7 +91,7 @@ class GrowingIO(object):
         del data['s']
         common_properties = self._get_common_properties()
         parameters = {
-            "stm": time,
+            "tm": time,
             "cs1": "user:{user_id}".format(user_id=user_id),
             "s": session_id,
             "u": gr_user_id,
@@ -178,7 +178,7 @@ class GrowingIO(object):
         使用 urllib 发送数据给服务器，如果发生错误会抛出异常。
         """
         try:
-            request = urllib2.Request(self._url, data)
+            request = urllib2.Request(self._url + '?stm=' + str(self._now()), data)
             request.add_header('Content-Type', 'text/plain')
             request.add_header('charset', 'utf-8')
             request.add_header('X-Client-Id', self._client_id)

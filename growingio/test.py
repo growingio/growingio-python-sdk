@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import sys
 from sdk import *
 reload(sys) 
 sys.setdefaultencoding('utf8')
