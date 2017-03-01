@@ -165,11 +165,11 @@ class GrowingIO(object):
 
     def _extract_user_time(self, properties):
         """
-        如果用户传入了 $time 字段，则不使用当前时间。
+        如果用户传入了 time 字段，则不使用当前时间。
         """
-        if properties is not None and '$time' in properties:
-            t = properties['$time']
-            del (properties['$time'])
+        if properties is not None and 'time' in properties:
+            t = properties['time']
+            del (properties['time'])
             return t
         return self._now()
 
